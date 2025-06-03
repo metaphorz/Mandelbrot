@@ -14,7 +14,7 @@ Install the dependencies with:
 pip install numpy matplotlib
 ```
 
-## Usage
+## Usage (Python)
 
 Run the script with:
 
@@ -22,6 +22,8 @@ Run the script with:
 python mandelbrot_zoom.py
 ```
 
-An interactive window will open. Drag with the left mouse button to draw a rectangle and zoom in on that region of the Mandelbrot set.
-You can also use the mouse scroll wheel to zoom in and out around the cursor
-position and drag with the right mouse button to pan around the current view.
+An interactive window will open. Drag with the left mouse button to draw a rectangle and zoom in on that region of the Mandelbrot set. You can also use the mouse scroll wheel to zoom in and out around the cursor position and drag with the right mouse button to pan around the current view.
+
+## WebGL Explorer
+
+A browser-based explorer is available using WebGL for fast rendering. Open `index.html` in a modern browser. Use the sliders to adjust the number of iterations and color shift. Click and drag to pan and use the mouse wheel to zoom.
