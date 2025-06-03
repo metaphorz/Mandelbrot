@@ -18,11 +18,17 @@ function createShader(gl, type, src) {
 
 function createProgram(gl, vsSrc, fsSrc) {
   const program = gl.createProgram();
-  gl.attachShader(program, createShader(gl, gl.VERTEX_SHADER, vsSrc));
-  gl.attachShader(program, createShader(gl, gl.FRAGMENT_SHADER, fsSrc));
+  const vs = createShader(gl, gl.VERTEX_SHADER, vsSrc);
+  const fs = createShader(gl, gl.FRAGMENT_SHADER, fsSrc);
+  if (!vs || !fs) {
+    return null;
+  }
+  gl.attachShader(program, vs);
+  gl.attachShader(program, fs);
   gl.linkProgram(program);
   if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
     console.error(gl.getProgramInfoLog(program));
+    gl.deleteProgram(program);
     return null;
   }
   return program;
@@ -52,12 +58,12 @@ void main() {
     vec2 uv = (gl_FragCoord.xy / u_resolution - 0.5) * u_scale;
     vec2 c = uv + u_center;
     vec2 z = vec2(0.0);
-    int i = 0;
-    for (; i < 1000; i++) {
-        if (i >= u_iter || dot(z, z) > 4.0) break;
+    int iter = 0;
+    for (iter = 0; iter < 1000; iter++) {
+        if (iter >= u_iter || dot(z, z) > 4.0) break;
         z = vec2(z.x*z.x - z.y*z.y, 2.0*z.x*z.y) + c;
     }
-    float f = float(i) / float(u_iter);
+    float f = float(iter) / float(u_iter);
     vec3 col = hsv2rgb(vec3(u_color + f, 1.0, f < 1.0 ? 1.0 : 0.0));
     gl_FragColor = vec4(col, 1.0);
 }`;
