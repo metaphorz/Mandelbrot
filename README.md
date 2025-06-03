@@ -27,3 +27,11 @@ An interactive window will open. Drag with the left mouse button to draw a recta
 ## WebGL Explorer
 
 A browser-based explorer is available using WebGL for fast rendering. Open `index.html` in a modern browser. Use the sliders to adjust the number of iterations and color shift. Click and drag to pan and use the mouse wheel to zoom.
+
+If your browser blocks loading the file directly, start a local server:
+
+```bash
+python -m http.server
+```
+
+Then visit `http://localhost:8000/index.html`.
