@@ -69,6 +69,10 @@ void main() {
 }`;
 
 const program = createProgram(gl, vertexSrc, fragmentSrc);
+if (!program) {
+  alert('Failed to create WebGL program');
+  throw new Error('Program creation failed');
+}
 
 const positionLoc = gl.getAttribLocation(program, 'position');
 const centerLoc = gl.getUniformLocation(program, 'u_center');
