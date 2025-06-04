@@ -3,19 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <title>Mandelbrot Explorer</title>
+  <!-- Inline SVG favicon to prevent 404 errors -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔍</text></svg>">
   <style>
     body { margin: 0; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; }
-    #controls { margin: 10px; display: flex; gap: 10px; align-items: center; }
-    #glCanvas { width: 800px; height: 800px; border: 1px solid #ccc; }
+    #controls { margin: 10px; display: flex; flex-wrap: wrap; gap: 15px; align-items: center; justify-content: center; }
+    #controls label { display: flex; flex-direction: column; align-items: center; }
+    #controls input { width: 150px; }
+    #glCanvas { width: 90vmin; height: 90vmin; max-width: 1200px; max-height: 1200px; border: 1px solid #ccc; }
   </style>
 </head>
 <body>
-  <h1>Mandelbrot Explorer (WebGL)</h1>
+  <h1>Mandelbrot Explorer</h1>
   <div id="controls">
-    <label>Iterations <input id="iter" type="range" min="50" max="1000" value="200"></label>
-    <label>Color Shift <input id="color" type="range" min="0" max="360" value="0"></label>
+    <label>Iterations <input id="iter" type="range" min="50" max="2000" value="500"></label>
+    <label>Brightness <input id="brightness" type="range" min="0" max="100" value="50"></label>
+    <label>Contrast <input id="contrast" type="range" min="0" max="100" value="50"></label>
+    <button id="reset" style="padding: 5px 15px; cursor: pointer; margin-left: 10px;">Reset View</button>
   </div>
-  <canvas id="glCanvas" width="800" height="800"></canvas>
+  <canvas id="glCanvas" width="1200" height="1200"></canvas>
   <script src="mandelbrot.js"></script>
 </body>
 </html>
