@@ -53,3 +53,7 @@ for (iter = 0; iter < 1000; iter++) {
 
 Updating the shader in this way resolves the "Invalid init declaration" error
 and prevents `attachShader` exceptions during program creation.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
