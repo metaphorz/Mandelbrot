@@ -38,14 +38,10 @@ Then visit `http://localhost:8000/index.html`.
 
 ## Troubleshooting
 
-If the WebGL canvas only shows a white screen, open the browser's developer
-console and check for shader compilation errors. One common issue is an empty
-initializer in the fragment shader loop. The loop counter must be assigned in
-the `for` statement, as shown in `mandelbrot.js`:
+If the WebGL canvas only shows a white screen, open the browser's developer console and check for shader compilation errors. One common issue is an empty initializer in the fragment shader loop. The loop counter must be declared and assigned in the `for` statement, as shown in `mandelbrot.js`:
 
 ```glsl
-int iter = 0;
-for (iter = 0; iter < 1000; iter++) {
+for (int iter = 0; iter < 1000; iter++) {
     if (iter >= u_iter || dot(z, z) > 4.0) break;
     z = vec2(z.x*z.x - z.y*z.y, 2.0*z.x*z.y) + c;
 }

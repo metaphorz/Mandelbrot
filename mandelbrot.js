@@ -58,8 +58,7 @@ void main() {
     vec2 uv = (gl_FragCoord.xy / u_resolution - 0.5) * u_scale;
     vec2 c = uv + u_center;
     vec2 z = vec2(0.0);
-    int iter = 0;
-    for (iter = 0; iter < 1000; iter++) {
+    for (int iter = 0; iter < 1000; iter++) {
         if (iter >= u_iter || dot(z, z) > 4.0) break;
         z = vec2(z.x*z.x - z.y*z.y, 2.0*z.x*z.y) + c;
     }
