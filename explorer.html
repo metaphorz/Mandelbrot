@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mandelbrot Explorer</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔍</text></svg>">
+  <style>
+    body { 
+      margin: 0; 
+      font-family: sans-serif; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      background-color: #1a1a1a;
+      color: #f0f0f0;
+    }
+    
+    #controls { 
+      margin: 10px; 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 15px; 
+      align-items: center; 
+      justify-content: center; 
+    }
+    
+    #controls label { 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+    }
+    
+    #controls input { 
+      width: 150px; 
+      margin-top: 5px; 
+    }
+    
+    #glCanvas { 
+      width: 90vmin; 
+      height: 90vmin; 
+      max-width: 1200px; 
+      max-height: 1200px; 
+      border: 1px solid #444; 
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    #iter-value, #brightness-value, #contrast-value { 
+      display: inline-block; 
+      min-width: 40px; 
+      background-color: #333; 
+      border-radius: 3px; 
+      padding: 2px 5px; 
+      margin-left: 5px; 
+      font-size: 0.9em; 
+      text-align: center; 
+    }
+    
+    button {
+      padding: 8px 15px;
+      cursor: pointer;
+      margin-left: 10px;
+      background-color: #444;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      transition: background-color 0.2s;
+    }
+    
+    button:hover {
+      background-color: #555;
+    }
+    
+    #download {
+      background-color: #4CAF50;
+    }
+    
+    #download:hover {
+      background-color: #5ebe62;
+    }
+    
+    a.back-link {
+      margin: 10px;
+      color: #aaa;
+      text-decoration: none;
+    }
+    
+    a.back-link:hover {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="back-link">← Back to Home</a>
+  <h1>Mandelbrot Explorer</h1>
+  <div id="controls">
+    <label>Iterations <span id="iter-value">50</span><input id="iter" type="range" min="1" max="100" value="50"></label>
+    <label>Brightness <span id="brightness-value">1.0</span><input id="brightness" type="range" min="0" max="100" value="50"></label>
+    <label>Contrast <span id="contrast-value">1.0</span><input id="contrast" type="range" min="0" max="100" value="50"></label>
+    <button id="reset">Reset View</button>
+    <button id="download">Download Image</button>
+  </div>
+  <canvas id="glCanvas" width="1200" height="1200"></canvas>
+  <script src="mandelbrot.js"></script>
+  <script src="audio.js"></script>
+</body>
+</html>

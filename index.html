@@ -2,26 +2,152 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mandelbrot Explorer</title>
-  <!-- Inline SVG favicon to prevent 404 errors -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔍</text></svg>">
   <style>
-    body { margin: 0; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; }
-    #controls { margin: 10px; display: flex; flex-wrap: wrap; gap: 15px; align-items: center; justify-content: center; }
-    #controls label { display: flex; flex-direction: column; align-items: center; }
-    #controls input { width: 150px; }
-    #glCanvas { width: 90vmin; height: 90vmin; max-width: 1200px; max-height: 1200px; border: 1px solid #ccc; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1a1a1a, #333);
+      color: #f0f0f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1000px;
+      padding: 20px;
+    }
+    
+    h1 {
+      font-size: 3.5rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(90deg, #fff, #aaa);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    h2 {
+      font-size: 1.8rem;
+      font-weight: normal;
+      margin-bottom: 2rem;
+      color: #ccc;
+    }
+    
+    .main-image {
+      width: 100%;
+      max-width: 800px;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      margin: 2rem 0;
+      transition: transform 0.3s ease;
+    }
+    
+    .main-image:hover {
+      transform: scale(1.02);
+    }
+    
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    
+    .feature {
+      flex: 1;
+      min-width: 250px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    
+    .buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .button {
+      display: inline-block;
+      padding: 0.8rem 1.5rem;
+      background: linear-gradient(90deg, #4a4a4a, #333);
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .button.primary {
+      background: linear-gradient(90deg, #555, #333);
+    }
+    
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    footer {
+      margin-top: 3rem;
+      color: #999;
+      font-size: 0.9rem;
+    }
+    
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      
+      h2 {
+        font-size: 1.3rem;
+      }
+    }
   </style>
 </head>
 <body>
-  <h1>Mandelbrot Explorer</h1>
-  <div id="controls">
-    <label>Iterations <input id="iter" type="range" min="50" max="2000" value="500"></label>
-    <label>Brightness <input id="brightness" type="range" min="0" max="100" value="50"></label>
-    <label>Contrast <input id="contrast" type="range" min="0" max="100" value="50"></label>
-    <button id="reset" style="padding: 5px 15px; cursor: pointer; margin-left: 10px;">Reset View</button>
+  <div class="container">
+    <h1>Mandelbrot Explorer</h1>
+    <h2>Discover the infinite beauty of fractal mathematics</h2>
+    
+    <img src="Screenshot 2025-06-05 at 4.34.05 PM.png" alt="Mandelbrot Set Visualization" class="main-image">
+    
+    <div class="features">
+      <div class="feature">
+        <h3>Interactive WebGL Visualization</h3>
+        <p>Explore the Mandelbrot set with a high-performance WebGL renderer that allows for smooth, real-time interaction.</p>
+      </div>
+      <div class="feature">
+        <h3>Deep Zoom Capability</h3>
+        <p>Dive deeper into the fractal with precision zooming that reveals endless detail and complexity.</p>
+      </div>
+      <div class="feature">
+        <h3>Audio Visualization</h3>
+        <p>Experience the Mandelbrot set through sound with our audio component that creates ambient sounds based on your current view.</p>
+      </div>
+    </div>
+    
+    <div class="buttons">
+      <a href="explorer.html" class="button primary">Launch Explorer</a>
+      <a href="https://github.com/metaphorz/Mandelbrot" class="button">View on GitHub</a>
+    </div>
   </div>
-  <canvas id="glCanvas" width="1200" height="1200"></canvas>
-  <script src="mandelbrot.js"></script>
+  
+  <footer>
+    &copy; 2025 Mandelbrot Explorer | <a href="https://github.com/metaphorz/Mandelbrot/blob/main/LICENSE" style="color: #999;">MIT License</a>
+  </footer>
 </body>
 </html>

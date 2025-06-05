@@ -128,16 +128,26 @@ let iterations = parseInt(iterInput.value);
 let brightness = parseFloat(brightnessInput.value) / 50.0; // 0-2 range
 let contrast = parseFloat(contrastInput.value) / 50.0;   // 0-2 range
 
+// Get value display elements
+let iterValueDisplay = document.getElementById('iter-value');
+let brightnessValueDisplay = document.getElementById('brightness-value');
+let contrastValueDisplay = document.getElementById('contrast-value');
+
 iterInput.oninput = () => {
   iterations = parseInt(iterInput.value);
+  iterValueDisplay.textContent = iterations;
   requestAnimationFrame(render);
 };
+
 brightnessInput.oninput = () => {
   brightness = parseFloat(brightnessInput.value) / 50.0;
+  brightnessValueDisplay.textContent = brightness.toFixed(1);
   requestAnimationFrame(render);
 };
+
 contrastInput.oninput = () => {
   contrast = parseFloat(contrastInput.value) / 50.0;
+  contrastValueDisplay.textContent = contrast.toFixed(1);
   requestAnimationFrame(render);
 };
 
@@ -301,7 +311,7 @@ canvas.parentNode.insertBefore(instructions, canvas);
 const initialState = {
   center: { x: -0.5, y: 0 },
   scale: 3.0,
-  iterations: 500,
+  iterations: 50,
   brightness: 1.0,
   contrast: 1.0
 };
@@ -316,15 +326,87 @@ resetButton.addEventListener('click', () => {
   // Reset control values
   iterInput.value = initialState.iterations;
   iterations = initialState.iterations;
+  iterValueDisplay.textContent = initialState.iterations;
   
   brightnessInput.value = 50; // Middle value
   brightness = initialState.brightness;
+  brightnessValueDisplay.textContent = initialState.brightness.toFixed(1);
   
   contrastInput.value = 50; // Middle value
   contrast = initialState.contrast;
+  contrastValueDisplay.textContent = initialState.contrast.toFixed(1);
   
   console.log('View reset to initial state');
   requestAnimationFrame(render);
+});
+
+// Download button functionality
+const downloadButton = document.getElementById('download');
+downloadButton.addEventListener('click', () => {
+  // Create a high-resolution off-screen canvas
+  const hiResCanvas = document.createElement('canvas');
+  hiResCanvas.width = 3000;  // High resolution width
+  hiResCanvas.height = 3000; // High resolution height
+  
+  const hiResGl = hiResCanvas.getContext('webgl');
+  if (!hiResGl) {
+    alert('Could not create WebGL context for high-res image');
+    return;
+  }
+  
+  // Create a program for the high-res canvas
+  const hiResProgram = createProgram(hiResGl, vertexSrc, fragmentSrc);
+  if (!hiResProgram) {
+    alert('Failed to create WebGL program for high-res image');
+    return;
+  }
+  
+  // Set up the high-res canvas just like the main canvas
+  const hiResPositionBuffer = hiResGl.createBuffer();
+  hiResGl.bindBuffer(hiResGl.ARRAY_BUFFER, hiResPositionBuffer);
+  hiResGl.bufferData(hiResGl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), hiResGl.STATIC_DRAW);
+  
+  hiResGl.useProgram(hiResProgram);
+  
+  // Get attribute and uniform locations
+  const hiResPositionLoc = hiResGl.getAttribLocation(hiResProgram, 'position');
+  const hiResCenterLoc = hiResGl.getUniformLocation(hiResProgram, 'u_center');
+  const hiResScaleLoc = hiResGl.getUniformLocation(hiResProgram, 'u_scale');
+  const hiResResolutionLoc = hiResGl.getUniformLocation(hiResProgram, 'u_resolution');
+  const hiResIterLoc = hiResGl.getUniformLocation(hiResProgram, 'u_iter');
+  const hiResBrightnessLoc = hiResGl.getUniformLocation(hiResProgram, 'u_brightness');
+  const hiResContrastLoc = hiResGl.getUniformLocation(hiResProgram, 'u_contrast');
+  
+  // Set attributes and uniforms
+  hiResGl.enableVertexAttribArray(hiResPositionLoc);
+  hiResGl.vertexAttribPointer(hiResPositionLoc, 2, hiResGl.FLOAT, false, 0, 0);
+  
+  hiResGl.uniform2f(hiResCenterLoc, center.x, center.y);
+  hiResGl.uniform1f(hiResScaleLoc, scale);
+  hiResGl.uniform2f(hiResResolutionLoc, hiResCanvas.width, hiResCanvas.height);
+  hiResGl.uniform1i(hiResIterLoc, iterations);
+  hiResGl.uniform1f(hiResBrightnessLoc, brightness);
+  hiResGl.uniform1f(hiResContrastLoc, contrast);
+  
+  // Draw the high-res Mandelbrot
+  hiResGl.viewport(0, 0, hiResCanvas.width, hiResCanvas.height);
+  hiResGl.drawArrays(hiResGl.TRIANGLE_STRIP, 0, 4);
+  
+  // Create a download link
+  try {
+    const dataURL = hiResCanvas.toDataURL('image/png');
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const downloadLink = document.createElement('a');
+    downloadLink.href = dataURL;
+    downloadLink.download = `mandelbrot-${timestamp}.png`;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+    console.log('High-resolution image download initiated');
+  } catch (error) {
+    console.error('Error creating download:', error);
+    alert('Failed to create download. See console for details.');
+  }
 });
 
 // Initial render
