@@ -120,7 +120,55 @@
     <h1>Mandelbrot Explorer</h1>
     <h2>Discover the infinite beauty of fractal mathematics</h2>
     
-    <img src="Screenshot 2025-06-05 at 4.34.05 PM.png" alt="Mandelbrot Set Visualization" class="main-image">
+    <div id="fractal-container" class="main-image" style="width: 100%; max-width: 800px; height: 500px;">
+      <canvas id="preview-canvas" width="800" height="800" style="width: 100%; height: 100%; border-radius: 8px;"></canvas>
+    </div>
+    <script>
+      // Create a simple preview of the Mandelbrot set
+      document.addEventListener('DOMContentLoaded', () => {
+        const canvas = document.getElementById('preview-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Create a gradient from white to black
+        const gradient = ctx.createRadialGradient(400, 400, 150, 400, 400, 400);
+        gradient.addColorStop(0, 'black');
+        gradient.addColorStop(0.7, 'black');
+        gradient.addColorStop(1, 'white');
+        
+        // Fill with gradient
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 800, 800);
+        
+        // Add some fractal-like details
+        for (let i = 0; i < 8; i++) {
+          const angle = Math.PI * 2 * i / 8;
+          const x = 400 + Math.cos(angle) * 250;
+          const y = 400 + Math.sin(angle) * 250;
+          
+          ctx.beginPath();
+          ctx.moveTo(400, 400);
+          ctx.lineTo(x, y);
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+          
+          // Add branches
+          for (let j = 0; j < 3; j++) {
+            const branchAngle = angle + (Math.random() - 0.5) * 0.5;
+            const length = 50 + Math.random() * 100;
+            const branchX = x + Math.cos(branchAngle) * length;
+            const branchY = y + Math.sin(branchAngle) * length;
+            
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(branchX, branchY);
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      });
+    </script>
     
     <div class="features">
       <div class="feature">
